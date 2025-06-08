@@ -12,7 +12,18 @@
           align-tabs="title"
           slider-color="green"
         >
-          <v-tab text="Чемпионат" to="/" value="one" />
+          <!-- <v-tab
+            color="surface-variant"
+            prepend-icon="mdi-rocket-launch-outline"
+            rounded="lg"
+            to="/"
+          /> -->
+          <v-tab to="/">
+            <img alt="Логотип моего приложения" height="50" src="@/assets/logo.png">
+          </v-tab>
+
+
+          <v-tab text="Чемпионат" to="/tables" value="one" />
 
           <v-tab text="Команда" to="/team" value="two" />
 
@@ -21,7 +32,7 @@
       </v-app-bar>
 
       <v-main>
-        <v-sheet height="150" />
+        <v-sheet height="40" />
       </v-main>
     </v-layout>
   </v-card>
@@ -65,10 +76,23 @@
           xl="3"
         >
           <v-sheet border>
-            <v-img
-              height="350"
+            <v-img height="100" :src="getDriverImage(item)" />
+            <!-- <v-img
+              v-if="item.raw.driver.driverId === 'hamilton'"
+              height="100"
               src="https://c.f1news.ru/userfiles/ham-photo.jpg"
             />
+            <v-img
+              v-if="item.raw.driver.driverId === 'leclerc'"
+              height="100"
+              src="https://c.f1news.ru/userfiles/port-leclerc-2024.jpg"
+            />
+
+            <v-img
+              v-else
+              height="100"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-m4D7gaOaHMGxxheIp_xF_OSzrba6G7MIA&s"
+            /> -->
             <!-- cover  <-from v-img -->
             <v-list-item
               density="comfortable"
@@ -159,6 +183,17 @@
           else { // Другая ошибка
             this.errorMessage = 'Что-то пошло не так.';
           }
+        }
+      },
+
+      getDriverImage (item) {
+        switch (item.raw.driver.driverId) {
+          case 'hamilton':
+            return 'https://c.f1news.ru/userfiles/ham-photo.jpg'
+          case 'leclerc':
+            return 'https://c.f1news.ru/userfiles/port-leclerc-2024.jpg'
+          default:
+            return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-m4D7gaOaHMGxxheIp_xF_OSzrba6G7MIA&s'
         }
       },
     },

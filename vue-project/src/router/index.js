@@ -7,6 +7,7 @@
 // Composables
 import DriverResult from '@/components/DriverResult.vue'
 import HelloWorld from '@/components/HelloWorld.vue'
+import Tables from '@/components/Tables.vue'
 import Team from '@/components/Team.vue'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 // import { routes } from 'vue-router/auto-routes'
@@ -18,6 +19,7 @@ const router = createRouter({
     { path: '/', component: HelloWorld },
     { path: '/team', component: Team },
     { path: '/driverResult', component: DriverResult },
+    { path: '/tables', component: Tables },
   ],
 })
 

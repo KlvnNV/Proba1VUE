@@ -107,7 +107,7 @@
   // }
   const links = [
     {
-      href: '#',
+      href: '/tables',
       icon: 'mdi-text-box-outline',
       subtitle: 'Результаты гонщиков и команд за сезон.',
       title: 'Чемпионат',

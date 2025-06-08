@@ -1,7 +1,7 @@
 <template>
   <HelloWorld />
   <!-- <Get /> -->
-  <!-- <Table /> -->
+  <Tables />
   <!-- <Table2 /> -->
 
   <DriverResult />
