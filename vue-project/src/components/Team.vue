@@ -12,11 +12,11 @@
           align-tabs="title"
           slider-color="green"
         >
-          <v-tab text="Чемпионат" value="one" />
+          <v-tab text="Чемпионат" to="/" value="one" />
 
-          <v-tab text="Команда" value="two" />
+          <v-tab text="Команда" to="/team" value="two" />
 
-          <v-tab text="Гонщик" value="three" />
+          <v-tab text="Гонщик" to="/driverResult" value="three" />
         </v-tabs>
       </v-app-bar>
 
@@ -66,11 +66,10 @@
         >
           <v-sheet border>
             <v-img
-              cover
               height="350"
               src="https://c.f1news.ru/userfiles/ham-photo.jpg"
             />
-
+            <!-- cover  <-from v-img -->
             <v-list-item
               density="comfortable"
               lines="two"

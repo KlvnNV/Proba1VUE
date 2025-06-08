@@ -1,10 +1,10 @@
 <template>
-  <!-- <HelloWorld /> -->
+  <HelloWorld />
   <!-- <Get /> -->
   <!-- <Table /> -->
   <!-- <Table2 /> -->
 
-  <!-- <DriverResult /> -->
+  <DriverResult />
   <!-- <Cardteam /> -->
   <!-- <Driversall /> -->
   <Team />

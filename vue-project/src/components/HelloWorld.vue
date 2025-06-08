@@ -83,7 +83,6 @@
             rel="noopener noreferrer"
             rounded="lg"
             :subtitle="link.subtitle"
-            target="_blank"
             :title="link.title"
             variant="tonal"
           />
@@ -114,13 +113,13 @@
       title: 'Чемпионат',
     },
     {
-      href: '#',
+      href: '/driverResult',
       icon: 'mdi-star-circle-outline',
       subtitle: 'Результаты гощика по годам.',
       title: 'Гонщик',
     },
     {
-      href: '#',
+      href: '/team',
       icon: 'mdi-widgets-outline',
       subtitle: 'Результаты команды по годам.',
       title: 'Команда',
