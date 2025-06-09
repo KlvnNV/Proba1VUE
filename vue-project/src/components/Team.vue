@@ -170,10 +170,10 @@
 
     methods: {
       async fetchData (year) {
-        try {
-          const response = await axios.get(`https://f1api.dev/api/${year}/teams/ferrari/drivers`);
-          this.posts = response.data.drivers || [];
-          this.errorMessage = '';
+        try {const teamId = this.$route.query.id;
+             const response = await axios.get(`https://f1api.dev/api/${year}/teams/${teamId}/drivers`);
+             this.posts = response.data.drivers || [];
+             this.errorMessage = '';
         }
         catch(error) {
           if (error.response) { // Сервер вернул ошибку с статусом

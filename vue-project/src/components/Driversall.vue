@@ -12,29 +12,34 @@
           align-tabs="title"
           slider-color="green"
         >
-          <v-tab text="Чемпионат" value="one" />
+          <v-tab to="/">
+            <img alt="Логотип моего приложения" height="50" src="@/assets/logo.png">
+          </v-tab>
 
-          <v-tab text="Команда" value="two" />
+          <v-tab text="Чемпионат" to="/tables" value="one" />
 
-          <v-tab text="Гонщик" value="three" />
+          <v-tab text="Команды" to="/cardteam" value="two" />
+
+          <v-tab text="Гонщики" to="/driversall" value="three" />
         </v-tabs>
       </v-app-bar>
 
       <v-main>
-        <v-sheet height="150" />
+        <v-sheet height="40" />
       </v-main>
     </v-layout>
   </v-card>
 
   <v-card>
     <v-container fluid>
-      <v-row class="justify-center">
+      <v-row class="justify-center ">
         <v-col cols="2">
           <v-combobox
             v-model="valueYear"
             density="comfortable"
             :items="years"
             label="ГОД"
+            style="min-width: 120px"
           />
         </v-col>
       </v-row>
@@ -48,6 +53,13 @@
       :search="search"
     >
       <template #header>
+        <h1 class="text-h4 font-weight-bold d-flex justify-center mb-4 align-center">
+          <div class="text-truncate">
+            Список гонщиков
+          </div>
+
+        </h1>
+
         <v-toolbar class="px-2">
           <v-text-field
             v-model="search"
@@ -140,28 +152,55 @@
 </template>
 <script>
   import axios from 'axios';
-  import { shallowRef } from 'vue';
+  import { ref, shallowRef } from 'vue';
   export default {
     setup () {
       const search = shallowRef('');
-      const valueYear = '2025';
-      const years = ['2025', '2024', '2023', '2022'];
-      const tabs = shallowRef(null)
+      const valueYear = ref('2025');
+      const years = ['2025', '2024', '2023', '2022', '2021', '2020'];
+      const tabs = shallowRef(null);
       return {
         search, valueYear, years, tabs,
       };
     },
     data () {
       return {
-        posts: [],
+        posts: [], errorMessage: '',
       }
     },
-    mounted () {
-      axios.get('https://f1api.dev/api/2025/drivers')
-        .then(response => {
-          this.posts = response.data.drivers
-          // console.log(response.data.teams)
-        })
+    watch: {
+      async valueYear (newValue) {
+        await this.fetchData(newValue);
+      },
     },
+    mounted () {
+      this.fetchData(this.valueYear);
+
+    },
+    methods: {
+      async fetchData (year) {
+        try {
+          const response = await axios.get(`https://f1api.dev/api/${year}/drivers`);
+          this.posts = response.data.drivers || [];
+          this.errorMessage = '';
+        }
+        catch(error) {
+          if (error.response) { // Сервер вернул ошибку с статусом
+            this.errorMessage = `${error.response.status}: ${error.response.data.message}`; }
+          else if (error.request) { // Ошибка на уровне сетевого соединения
+            this.errorMessage = 'Ошибка подключения к серверу.'; }
+          else { // Другая ошибка
+            this.errorMessage = 'Что-то пошло не так.';
+          }
+        }
+      },
+    },
+
+    // mounted () {
+    //   axios.get('https://f1api.dev/api/2025/drivers')
+    //     .then(response => {
+    //       this.posts = response.data.drivers
+    //     })
+    // },
   }
 </script>

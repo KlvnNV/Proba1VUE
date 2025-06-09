@@ -5,7 +5,7 @@
   <!-- <Table2 /> -->
 
   <DriverResult />
-  <!-- <Cardteam /> -->
-  <!-- <Driversall /> -->
+  <Cardteam />
+  <Driversall />
   <Team />
 </template>

@@ -5,7 +5,9 @@
  */
 
 // Composables
+import Cardteam from '@/components/Cardteam.vue'
 import DriverResult from '@/components/DriverResult.vue'
+import Driversall from '@/components/Driversall.vue'
 import HelloWorld from '@/components/HelloWorld.vue'
 import Tables from '@/components/Tables.vue'
 import Team from '@/components/Team.vue'
@@ -19,6 +21,8 @@ const router = createRouter({
     { path: '/', component: HelloWorld },
     { path: '/team', component: Team },
     { path: '/driverResult', component: DriverResult },
+    { path: '/driversall', component: Driversall },
+    { path: '/cardteam', component: Cardteam },
     { path: '/tables', component: Tables },
   ],
 })
