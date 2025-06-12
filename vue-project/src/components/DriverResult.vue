@@ -92,39 +92,33 @@
     </template>
   </v-data-table-server>
 </template>
-<!-- <script setup>
-  import { onMounted, ref, watch } from 'vue'
+<script setup>
+  import { onMounted, ref, shallowRef, watch } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router';
 
-          // Инициализация реактивных данных
+  // Инициализация реактивных данных
   const posts = ref([])
   const errorMessage = ref('');
   const valueYear = ref('2025')
   const years = ['2025', '2024', '2023', '2022', '2021', '2020']
   const route = useRoute();
+  const tabs = shallowRef(null)
 
-          // const tabs = ref(null)
+  // Наблюдаем за изменением переменной valueYear
+  // watch(
+  //   valueYear, // За какой переменной следить
+  //   async newValue => { // Новая функция-обработчик изменений
+  //     await fetchData(newValue) // Вызываем fetchData с новым значением
+  //   },
+  //   { immediate: true }
+  //   // Немедленно выполняем при создании
+  // )
 
-          // watchEffect(async () => {
-          //   await fetchData(valueYear.value);
-          // }, { immediate: true });
-
-
-          // Наблюдаем за изменением переменной valueYear
-  watch(
-    valueYear, // За какой переменной следить
-    async newValue => { // Новая функция-обработчик изменений
-      await fetchData(newValue) // Вызываем fetchData с новым значением
-    },
-    { immediate: true }
-    // Немедленно выполняем при создании
-  )
-
-          // Метод fetchData для загрузки данных при монтировании компонента
+  // Метод fetchData для загрузки данных при монтировании компонента
   async function fetchData (year) {
     try {
-      const driverId = route.query.id;
+      const driverId = route.query.id;//'alonso';
       const response = await axios.get(`https://f1api.dev/api/${year}/drivers/${driverId}`)
       posts.value = response.data.results || [];
       errorMessage.value = '';
@@ -211,10 +205,30 @@
       loading.value = false
     })
   }
+  // watch(name, () => {
+  //   search.value = String(Date.now())
+  // })
+  //   watch([valueYear, name], async ([newValueYear, newName]) => {
+  //   if (newValueYear !== undefined && newValueYear !== null) {
+  //     await fetchData(newValueYear)
+  //   }
+
+  //   if (newName !== undefined && newName !== null) {
+  //     search.value = String(Date.now())
+  //   }
+  // }, { immediate: true })
+  // Наблюдатель за изменением года
+  watch(valueYear, async newValue => {
+    console.log('Год изменился:', newValue);
+    await fetchData(newValue);
+    loadItems({ page: 1, itemsPerPage: itemsPerPage.value, sortBy: false });
+  }, { immediate: true });
+
+  // Наблюдатель за изменением имени
   watch(name, () => {
-    search.value = String(Date.now())
+    search.value = String(Date.now());
   })
-</script> -->
+</script>
 
 <!-- <script>
   import axios from 'axios'
@@ -351,7 +365,7 @@
 
 
 </script> -->
-<script>
+<!-- <script>
   import axios from 'axios';
   import { ref, shallowRef } from 'vue';
 
@@ -539,4 +553,4 @@
       },
     },
   };
-</script>
+</script> -->
