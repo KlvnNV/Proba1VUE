@@ -25,9 +25,9 @@
 
           <v-tab text="Чемпионат" to="/tables" value="one" />
 
-          <v-tab text="Команда" to="/team" value="two" />
+          <v-tab text="Команды" to="/cardteam" value="two" />
 
-          <v-tab text="Гонщик" to="/driverResult" value="three" />
+          <v-tab text="Гонщики" to="/driversall" value="three" />
         </v-tabs>
       </v-app-bar>
 
@@ -41,7 +41,7 @@
     <v-container fluid>
       <v-row class="justify-center ">
         <v-col cols="2">
-          <v-combobox
+          <v-select
             v-model="valueYear"
             density="comfortable"
             :items="years"
@@ -97,7 +97,7 @@
             <v-list-item
               density="comfortable"
               lines="two"
-              subtitle="Lorem ipsum dil orei namdie dkaf"
+              :subtitle="item.raw.driver.surname"
               :title="item.raw.driver.name"
             >
               <template #title>
@@ -110,9 +110,9 @@
             <v-table class="text-caption" density="compact">
               <tbody>
                 <tr align="right">
-                  <th>surname:</th>
+                  <th>number:</th>
 
-                  <td>{{ item.raw.driver.surname }}</td>
+                  <td>{{ item.raw.driver.number }}</td>
                 </tr>
 
                 <tr align="right">

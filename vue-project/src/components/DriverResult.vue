@@ -13,16 +13,20 @@
           align-tabs="title"
           slider-color="green"
         >
-          <v-tab text="Чемпионат" to="/" value="one" />
+          <v-tab to="/">
+            <img alt="Логотип моего приложения" height="50" src="@/assets/logo.png">
+          </v-tab>
 
-          <v-tab text="Команда" to="/team" value="two" />
+          <v-tab text="Чемпионат" to="/tables" value="one" />
 
-          <v-tab text="Гонщик" to="/driverResult" value="three" />
+          <v-tab text="Команды" to="/cardteam" value="two" />
+
+          <v-tab text="Гонщики" to="/driversall" value="three" />
         </v-tabs>
       </v-app-bar>
 
       <v-main>
-        <v-sheet height="150" />
+        <v-sheet height="40" />
       </v-main>
     </v-layout>
   </v-card>
@@ -39,11 +43,12 @@
     <v-container fluid>
       <v-row class="justify-center">
         <v-col cols="2">
-          <v-combobox
+          <v-select
             v-model="valueYear"
             density="comfortable"
             :items="years"
             label="ГОД"
+            style="min-width: 120px"
           />
         </v-col>
       </v-row>
@@ -87,30 +92,54 @@
     </template>
   </v-data-table-server>
 </template>
-<script setup>
+<!-- <script setup>
   import { onMounted, ref, watch } from 'vue'
   import axios from 'axios'
+  import { useRoute } from 'vue-router';
 
-  // Инициализация реактивных данных
+          // Инициализация реактивных данных
   const posts = ref([])
-  const errors = ref([])
+  const errorMessage = ref('');
   const valueYear = ref('2025')
-  const years = ['2025', '2024', '2023', '2022']
+  const years = ['2025', '2024', '2023', '2022', '2021', '2020']
+  const route = useRoute();
+
+          // const tabs = ref(null)
+
+          // watchEffect(async () => {
+          //   await fetchData(valueYear.value);
+          // }, { immediate: true });
 
 
-  const tabs = ref(null)
+          // Наблюдаем за изменением переменной valueYear
+  watch(
+    valueYear, // За какой переменной следить
+    async newValue => { // Новая функция-обработчик изменений
+      await fetchData(newValue) // Вызываем fetchData с новым значением
+    },
+    { immediate: true }
+    // Немедленно выполняем при создании
+  )
 
-  async function fetchData () {
+          // Метод fetchData для загрузки данных при монтировании компонента
+  async function fetchData (year) {
     try {
-      const response = await axios.get('https://f1api.dev/api/2024/drivers/alonso')
-      posts.value = response.data.results
-    } catch (err) {
-      errors.value.push(err.message || err.toString())
+      const driverId = route.query.id;
+      const response = await axios.get(`https://f1api.dev/api/${year}/drivers/${driverId}`)
+      posts.value = response.data.results || [];
+      errorMessage.value = '';
+    } catch (error) {
+      if (error.response) {
+        errorMessage.value = `${error.response.status}: ${error.response.data.message}`;
+      } else if (error.request) {
+        errorMessage.value = 'Ошибка подключения к серверу.';
+      } else {
+        errorMessage.value = 'Что-то пошло не так.';
+      }
     }
   }
-  // Метод fetchData для загрузки данных при монтировании компонента
   onMounted(() => {
-    fetchData()
+    fetchData(valueYear.value)
   })
 
   const FakeAPI = {
@@ -165,7 +194,7 @@
     { title: 'Name race', key: 'race.name', sortable: false },
     { title: 'country', key: 'race.circuit.country', sortable: false },
     { title: 'finishingPosition', key: 'result.finishingPosition', sortable: false },
-    { title: 'points', key: 'result.pointsObtained', sortable: false },
+    { title: 'points', key: 'result.pointsObtained', sortable: true },
 
   ])
   const serverItems = ref([])
@@ -173,6 +202,7 @@
   const totalItems = ref(0)
   const name = ref('')
   const search = ref('')
+
   function loadItems ({ page, itemsPerPage, sortBy }) {
     loading.value = true
     FakeAPI.fetch({ page, itemsPerPage, sortBy, search: { value: search.value } }).then(({ items, total }) => {
@@ -184,4 +214,329 @@
   watch(name, () => {
     search.value = String(Date.now())
   })
+</script> -->
+
+<!-- <script>
+  import axios from 'axios'
+
+  export default {
+    data () {
+      return {
+        posts: [],
+        errorMessage: '',
+        valueYear: '2025',
+        years: ['2025', '2024', '2023', '2022', '2021', '2020'],
+        itemsPerPage: 10, // Количество элементов на странице
+        headers: [
+          { title: 'Дата', align: 'start', sortable: false, key: 'race.date' },
+          { title: 'Название гонки', key: 'race.name', sortable: false },
+          { title: 'Страна', key: 'race.circuit.country', sortable: false },
+          { title: 'Позиция финиша', key: 'result.finishingPosition', sortable: false },
+          { title: 'Очки', key: 'result.pointsObtained', sortable: true },
+        ],
+        serverItems: [], // Элементы сервера (результаты запроса)
+        loading: true, // Загрузка данных
+        totalItems: 0, // Общее количество записей
+        name: '', // Имя водителя (не используется здесь)
+        search: '', // Поисковая фраза
+
+      };
+    },
+    watch: {
+      valueYear: {
+        async handler () {
+          await this.fetchData();
+        },
+        immediate: true,
+      },
+      // Наблюдатель за полем имени (name), обновление search.value при каждом изменении
+      // name (newVal) {
+      //   this.search = String(Date.now())
+      // },
+
+    },
+    created () {
+      this.fetchData();
+      // Запрашиваем начальные данные при создании компонента
+      this.loadItems();
+
+    },
+    methods: {
+      async fetchData () {
+        try {
+          const driverId = this.$route.query.id; // Используем встроенный объект маршрута Vue Router
+          const response = await axios.get(
+            `https://f1api.dev/api/${this.valueYear}/drivers/${driverId}`
+          );
+          this.posts = response.data.results || [];
+          this.errorMessage = '';
+        } catch (error) {
+          if (error.response) {
+            this.errorMessage = `${error.response.status}: ${error.response.data.message}`;
+          } else if (error.request) {
+            this.errorMessage = 'Ошибка подключения к серверу.';
+          } else {
+            this.errorMessage = 'Что-то пошло не так.';
+          }
+        }
+      },
+      // Метод загрузки данных
+      async loadItems (options) {
+        this.loading = true
+
+        const { page, itemsPerPage, sortBy } = options
+        const result = await FakeAPI.fetch({ page, itemsPerPage, sortBy, search: this.search })
+
+        this.serverItems = result.items
+        this.totalItems = result.total
+        this.loading = false
+      },
+
+    },
+  };
+
+  // Мнимое API для симуляции запросов (FakeAPI)
+  const FakeAPI = {
+    async fetch (options) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const { page, itemsPerPage, sortBy, search } = options
+          const start = (page - 1) * itemsPerPage
+          const end = start + itemsPerPage
+
+          // Фильтруем элементы по поиску
+          const filteredItems = posts.value.filter(item => {
+            if (
+              search &&
+              (!item.race.name.toLowerCase().includes(search.toLowerCase()) ||
+                !item.race.circuit.country.toLowerCase().includes(search.toLowerCase()))
+            ) {
+              return false
+            }
+            return true
+          })
+
+          // Сортируем список элементов (если задана сортировка)
+          if (sortBy.length > 0) {
+            const sortKey = sortBy[0].key
+            const sortOrder = sortBy[0].order
+
+            filteredItems.sort((a, b) => {
+              let aValue = a
+              let bValue = b
+
+              // Идем по каждому уровню объекта (для глубокого сравнения)
+              for (const part of sortKey.split('.')) {
+                aValue = aValue[part]
+                bValue = bValue[part]
+              }
+
+              // Локализованное сравнение строк
+              return sortOrder === 'desc'
+                ? bValue.localeCompare(aValue)
+                : aValue.localeCompare(bValue)
+            })
+          }
+
+          // Создаем пагинированный набор данных
+          const paginated = filteredItems.slice(start, end === -1 ? undefined : end)
+          resolve({
+            items: paginated,
+            total: filteredItems.length,
+          })
+        }, 500)
+      })
+    },
+  }
+
+
+</script> -->
+<script>
+  import axios from 'axios';
+  import { ref, shallowRef } from 'vue';
+
+  export default {
+    setup () {
+      const posts=ref([]);
+      const errorMessage= ref('');
+
+      const valueYear = ref('2025');
+      const years = ['2025', '2024', '2023', '2022', '2021', '2020'];
+      const tabs = shallowRef(null);
+      const serverItems = ref([]);
+      const loading = ref(true);
+      const totalItems = ref(0);
+      const name = ref('');
+      const search = ref('');
+      const itemsPerPage = ref(5)
+      const headers = ref([
+        {
+          title: 'Дата',
+          align: 'start',
+          sortable: false,
+          key: 'race.date',
+        },
+        { title: 'Name race', key: 'race.name', sortable: false },
+        { title: 'country', key: 'race.circuit.country', sortable: false },
+        { title: 'finishingPosition', key: 'result.finishingPosition', sortable: false },
+        { title: 'points', key: 'result.pointsObtained', sortable: true },
+
+      ]);
+      const fakeApi = {
+        async fetch ({ page, itemsPerPage, sortBy, search }, postsArray) {
+          return new Promise(resolve => {
+            setTimeout(() => {
+              const start = (page - 1) * itemsPerPage;
+              const end = start + itemsPerPage;
+              const items = postsArray.slice().filter(item => {
+                if (
+                  search.value &&
+                  !item.race.name.toLowerCase().includes(search.value.toLowerCase()) &&
+                  !item.race.circuit.country.toLowerCase().includes(search.value.toLowerCase())
+                ) {
+                  return false;
+                }
+                return true;
+              });
+
+              if (sortBy.length > 0) {
+                const sortKey = sortBy[0].key;
+                const sortOrder = sortBy[0].order;
+
+                items.sort((a, b) => {
+                  let aValue = a;
+                  let bValue = b;
+
+                  for (const part of sortKey.split('.')) {
+                    aValue = aValue[part];
+                    bValue = bValue[part];
+                  }
+
+                  if (sortOrder === 'desc') {
+                    return bValue.localeCompare(aValue);
+                  } else {
+                    return aValue.localeCompare(bValue);
+                  }
+                });
+              }
+
+              const paginated = items.slice(start, end === -1 ? undefined : end);
+              resolve({ items: paginated, total: items.length });
+            }, 500);
+          });
+        },
+      };
+      return {
+        valueYear, years, tabs,serverItems,loading,totalItems,name,search,itemsPerPage,headers,posts,errorMessage,fakeApi,
+      };
+    },
+
+    // data () {
+    //   return {
+    //     fakeApi: {
+    //       async fetch ({ page, itemsPerPage, sortBy, search }) {
+    //         return new Promise(resolve => {
+    //           setTimeout(() => {
+    //             const start = (page - 1) * itemsPerPage;
+    //             const end = start + itemsPerPage;
+    //             const items = this.posts.slice().filter(item => {
+    //               if (
+    //                 search.value &&
+    //                 !item.driver.surname.toLowerCase().includes(search.value.toLowerCase()) &&
+    //                 !item.driver.name.toLowerCase().includes(search.value.toLowerCase())
+    //               ) {
+    //                 return false;
+    //               }
+    //               return true;
+    //             });
+
+    //             if (sortBy.length > 0) {
+    //               const sortKey = sortBy[0].key;
+    //               const sortOrder = sortBy[0].order;
+
+    //               items.sort((a, b) => {
+    //                 let aValue = a;
+    //                 let bValue = b;
+
+    //                 for (const part of sortKey.split('.')) {
+    //                   aValue = aValue[part];
+    //                   bValue = bValue[part];
+    //                 }
+
+    //                 if (sortOrder === 'desc') {
+    //                   return bValue.localeCompare(aValue);
+    //                 } else {
+    //                   return aValue.localeCompare(bValue);
+    //                 }
+    //               });
+    //             }
+
+    //             const paginated = items.slice(start, end === -1 ? undefined : end);
+    //             resolve({ items: paginated, total: items.length });
+    //           }, 500);
+    //         });
+    //       },
+    //     },
+    //   itemsPerPage: 5,
+    //   headers: [
+    //     { title: 'Позиция', align: 'start', sortable: false, key: 'position' },
+    //     { title: 'First Name', key: 'driver.name', sortable: false },
+    //     { title: 'Last Name', key: 'driver.surname' },
+    //     { title: 'Team', key: 'team.teamName' },
+    //     { title: 'Points', key: 'points' },
+    //   ],
+    //   serverItems: [],
+    //   loading: true,
+    //   totalItems: 0,
+    //   name: '',
+    //   search: '',
+    //   };
+    // },
+    watch: {
+      async valueYear (newValue) {
+        await this.fetchData(newValue);
+        this.loadItems({ page: 1, itemsPerPage: this.itemsPerPage });
+      },
+    },
+    mounted () {
+      this.fetchData(this.valueYear);
+    },
+
+    // watch: {
+    //   name (newVal) {
+    //     this.search = String(Date.now());
+    //   },
+    // },
+    // mounted () {
+    //   this.fetchData();
+    // },
+    methods: {
+      async fetchData (year) {
+        try {
+          const driverId = this.$route.query.id;
+          const response = await axios.get(`https://f1api.dev/api/${year}/drivers/${driverId}`);
+          this.posts = response.data.results || [];
+          this.errorMessage = '';
+          this.loadItems({ page: 1, itemsPerPage: this.itemsPerPage });
+        }
+        catch(error) {
+          if (error.response) { // Сервер вернул ошибку с статусом
+            this.errorMessage = `${error.response.status}: ${error.response.data.message}`; }
+          else if (error.request) { // Ошибка на уровне сетевого соединения
+            this.errorMessage = 'Ошибка подключения к серверу.'; }
+          else { // Другая ошибка
+            this.errorMessage = 'Что-то пошло не так.';
+          }
+        }
+      },
+      loadItems ({ page, itemsPerPage, sortBy }) {
+        this.loading = true;
+        this.fakeApi.fetch({ page, itemsPerPage, sortBy, search: { value: this.search } }, this.posts).then(({ items, total }) => {
+          this.serverItems = items;
+          this.totalItems = total;
+          this.loading = false;
+        });
+      },
+    },
+  };
 </script>

@@ -26,7 +26,7 @@
 
           <v-tab text="Команды" to="/cardteam" value="two" />
 
-          <v-tab text="Гонщики" to="/driverResult" value="three" />
+          <v-tab text="Гонщики" to="/driversall" value="three" />
         </v-tabs>
       </v-app-bar>
 
@@ -124,7 +124,7 @@
                     size="small"
                     text="Далее"
                     variant="flat"
-                    @click="goToLeague(item.raw.teamId)"
+                    @click="goToTeam(item.raw.teamId)"
                   />
                 </div>
               </v-card>
@@ -204,8 +204,8 @@
           }
         }
       },
-      goToLeague (teamId) {
-        console.log(teamId);
+      goToTeam (teamId) {
+        // console.log(teamId);
         this.$router.push(`/team/?id=${teamId}`);
       },
     },

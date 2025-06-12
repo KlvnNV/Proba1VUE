@@ -13,11 +13,16 @@
           align-tabs="title"
           slider-color="green"
         >
-          <v-tab text="Чемпионат" value="one" />
+          <v-tab to="/">
+            <img alt="Логотип моего приложения" height="50" src="@/assets/logo.png">
+          </v-tab>
 
-          <v-tab text="Команда" value="two" />
 
-          <v-tab text="Гонщик" value="three" />
+          <v-tab text="Чемпионат" to="/tables" value="one" />
+
+          <v-tab text="Команды" to="/cardteam" value="two" />
+
+          <v-tab text="Гонщики" to="/driversall" value="three" />
         </v-tabs>
       </v-app-bar>
 

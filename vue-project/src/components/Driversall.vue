@@ -21,6 +21,7 @@
           <v-tab text="Команды" to="/cardteam" value="two" />
 
           <v-tab text="Гонщики" to="/driversall" value="three" />
+          <v-tab text="Гонщики" to="/driverResult" value="thour" />
         </v-tabs>
       </v-app-bar>
 
@@ -83,7 +84,11 @@
               cols="auto"
               md="4"
             >
-              <v-card border class="pb-3" flat>
+              <v-card
+                border
+                class="pb-3"
+                flat
+              >
                 <v-img
                   v-if="item.raw.driverId === 'hamilton'"
                   height="100"
@@ -114,6 +119,7 @@
                     size="small"
                     text="Далее"
                     variant="flat"
+                    @click="goToDriver(item.raw.driverId)"
                   />
                 </div>
               </v-card>
@@ -194,13 +200,10 @@
           }
         }
       },
+      goToDriver (driverId) {
+        this.$router.push(`/driverResult/?id=${driverId}`);
+      },
     },
 
-    // mounted () {
-    //   axios.get('https://f1api.dev/api/2025/drivers')
-    //     .then(response => {
-    //       this.posts = response.data.drivers
-    //     })
-    // },
   }
 </script>
