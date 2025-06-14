@@ -26,7 +26,7 @@
       </v-app-bar>
 
       <v-main>
-        <v-sheet height="40" />
+        <v-sheet height="10" />
       </v-main>
     </v-layout>
   </v-card>
@@ -34,7 +34,7 @@
   <v-card>
     <h1 class="text-h4 font-weight-bold d-flex justify-center mb-4 align-center">
       <div class="text-truncate">
-        Результаты гонщика
+        {{ `Результаты гонщика ${driverName}` }}
       </div>
     </h1>
   </v-card>
@@ -96,29 +96,22 @@
   import { onMounted, ref, shallowRef, watch } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router';
+  const route = useRoute();
 
   // Инициализация реактивных данных
   const posts = ref([])
   const errorMessage = ref('');
-  const valueYear = ref('2025')
+  const driverId = route.query.id;
+  const driverName = route.query.name;
+  const driverYear = route.query.year;
+  const valueYear = ref(driverYear)
   const years = ['2025', '2024', '2023', '2022', '2021', '2020']
-  const route = useRoute();
   const tabs = shallowRef(null)
 
-  // Наблюдаем за изменением переменной valueYear
-  // watch(
-  //   valueYear, // За какой переменной следить
-  //   async newValue => { // Новая функция-обработчик изменений
-  //     await fetchData(newValue) // Вызываем fetchData с новым значением
-  //   },
-  //   { immediate: true }
-  //   // Немедленно выполняем при создании
-  // )
 
   // Метод fetchData для загрузки данных при монтировании компонента
   async function fetchData (year) {
     try {
-      const driverId = route.query.id;//'alonso';
       const response = await axios.get(`https://f1api.dev/api/${year}/drivers/${driverId}`)
       posts.value = response.data.results || [];
       errorMessage.value = '';

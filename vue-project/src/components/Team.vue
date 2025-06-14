@@ -32,7 +32,7 @@
       </v-app-bar>
 
       <v-main>
-        <v-sheet height="40" />
+        <v-sheet height="10" />
       </v-main>
     </v-layout>
   </v-card>
@@ -60,7 +60,7 @@
 
       <h1 class="text-h4 font-weight-bold d-flex justify-center mb-4 align-center">
         <div class="text-truncate">
-          Состав команды
+          {{ `Состав команды ${teamName}` }}
         </div>
 
       </h1>
@@ -75,25 +75,8 @@
           sm="6"
           xl="3"
         >
-          <v-sheet border>
+          <v-sheet border class="rounded-lg">
             <v-img height="100" :src="getDriverImage(item)" />
-            <!-- <v-img
-              v-if="item.raw.driver.driverId === 'hamilton'"
-              height="100"
-              src="https://c.f1news.ru/userfiles/ham-photo.jpg"
-            />
-            <v-img
-              v-if="item.raw.driver.driverId === 'leclerc'"
-              height="100"
-              src="https://c.f1news.ru/userfiles/port-leclerc-2024.jpg"
-            />
-
-            <v-img
-              v-else
-              height="100"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-m4D7gaOaHMGxxheIp_xF_OSzrba6G7MIA&s"
-            /> -->
-            <!-- cover  <-from v-img -->
             <v-list-item
               density="comfortable"
               lines="two"
@@ -144,18 +127,26 @@
 <script>
   import axios from 'axios';
   import { ref, shallowRef } from 'vue';
+  import { useRoute } from 'vue-router';
+
   export default {
     setup () {
-      const valueYear = ref('2025');
+      const route = useRoute();
+      // const teamId = route.query.id;
+      // const teamName = route.query.name;
+      const teamYear = route.query.year;
+
+      const valueYear = ref(teamYear);
       const years = ['2025', '2024', '2023', '2022', '2021', '2020'];
       const tabs = shallowRef(null)
       return {
-        valueYear, years, tabs,
+        valueYear, years, tabs, //teamId, teamName, teamYear,
       };
     },
     data () {
       return {
         posts: [], errorMessage: '',
+        teamId: '', teamName: '', teamYear: '',
       }
     },
 
@@ -165,15 +156,20 @@
       },
     },
     mounted () {
+      const route = useRoute();
+      this.teamId = route.query.id;
+      this.teamName = route.query.name;
+      // this.teamYear = route.query.year;
+
       this.fetchData(this.valueYear);
     },
 
     methods: {
       async fetchData (year) {
-        try {const teamId = this.$route.query.id;
-             const response = await axios.get(`https://f1api.dev/api/${year}/teams/${teamId}/drivers`);
-             this.posts = response.data.drivers || [];
-             this.errorMessage = '';
+        try {
+          const response = await axios.get(`https://f1api.dev/api/${year}/teams/${this.teamId}/drivers`);
+          this.posts = response.data.drivers || [];
+          this.errorMessage = '';
         }
         catch(error) {
           if (error.response) { // Сервер вернул ошибку с статусом
@@ -189,11 +185,49 @@
       getDriverImage (item) {
         switch (item.raw.driver.driverId) {
           case 'hamilton':
-            return 'https://c.f1news.ru/userfiles/ham-photo.jpg'
+            return '/src/assets/pilots/hamilton.jpg';
+          case 'albon':
+            return '/src/assets/pilots/albon.jpg';
+          case 'alonso':
+            return '/src/assets/pilots/alonso.jpg';
+          case 'antonelli':
+            return '/src/assets/pilots/antonelli.jpg';
+          case 'bearman':
+            return '/src/assets/pilots/berman.jpg';
+          case 'bortoleto':
+            return '/src/assets/pilots/bortoleto.jpg';
+          case 'colapinto':
+            return '/src/assets/pilots/colapinto.jpg';
+          case 'doohan':
+            return '/src/assets/pilots/doohan.jpg';
           case 'leclerc':
-            return 'https://c.f1news.ru/userfiles/port-leclerc-2024.jpg'
+            return '/src/assets/pilots/leclerc.jpg';
+          case 'gasly':
+            return '/src/assets/pilots/gasly.jpg';
+          case 'hadjar':
+            return '/src/assets/pilots/hadjar.jpg';
+          case 'hulkenberg':
+            return '/src/assets/pilots/hulk.jpg';
+          case 'lawson':
+            return '/src/assets/pilots/lawson.jpg';
+          case 'norris':
+            return '/src/assets/pilots/norris.jpg';
+          case 'ocon':
+            return '/src/assets/pilots/ocon.jpg';
+          case 'piastri':
+            return '/src/assets/pilots/piastri.jpg';
+          case 'russell':
+            return '/src/assets/pilots/russell.jpg';
+          case 'sainz':
+            return '/src/assets/pilots/sainz.jpg';
+          case 'stroll':
+            return '/src/assets/pilots/stroll.jpg';
+          case 'tsunoda':
+            return '/src/assets/pilots/tsunoda.jpg';
+          case 'max_verstappen':
+            return '/src/assets/pilots/verstappen.jpg';
           default:
-            return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-m4D7gaOaHMGxxheIp_xF_OSzrba6G7MIA&s'
+            return '/src/assets/pilots/defaultpilot.png'
         }
       },
     },

@@ -2,7 +2,7 @@
   <v-card>
     <h1 class="text-h4 font-weight-bold d-flex justify-center mb-4 align-center">
       <div class="text-truncate">
-        Командный зачет
+        Командный зачет {{ props.user.nameJJ }}
       </div>
     </h1>
   </v-card>
@@ -18,8 +18,9 @@
     @update:options="loadItems"
   >
     <template #[`item.team.teamName`]="{ item }">
-      <span>{{ item.team.teamName }}
-        <img
+      <span class="d-flex flex-row align-center"><img height="20" :src="getTeamImage(item)"> {{ item.team.teamName }}
+
+        <!-- <img
           v-if="item.team.teamName === 'Scuderia Ferrari'"
           alt="{{ item.team.teamName }}"
           height="20"
@@ -32,7 +33,7 @@
           height="20"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-m4D7gaOaHMGxxheIp_xF_OSzrba6G7MIA&s"
           width="20"
-        >
+        > -->
 
       </span>
     </template>
@@ -55,14 +56,22 @@
 <script setup>
   import { onMounted, ref, watch } from 'vue'
   import axios from 'axios'
-
+  import { defineProps } from 'vue';
+  // import { useRoute } from 'vue-router';
+  // const route = useRoute();
   // Инициализация реактивных данных
   const posts = ref([])
   const errors = ref([])
+  // const tableYear = route.query.year;
+  const props = defineProps(['user'])
+  const valueYear = ref(props.user.nameJJ || '2022')//tableYear? tableYear : '2025'
+  // const years = ['2025', '2024', '2023', '2022']
+  // const tabs = shallowRef(null)
 
-  async function fetchData () {
+
+  async function fetchData (year) {
     try {
-      const response = await axios.get('https://f1api.dev/api/2025/constructors-championship')
+      const response = await axios.get(`https://f1api.dev/api/${year}/constructors-championship`)
       posts.value = response.data.constructors_championship
     } catch (err) {
       errors.value.push(err.message || err.toString())
@@ -70,7 +79,7 @@
   }
   // Метод fetchData для загрузки данных при монтировании компонента
   onMounted(() => {
-    fetchData()
+    fetchData(valueYear.value)
   })
 
   const FakeAPI = {
@@ -149,7 +158,43 @@
       loading.value = false
     })
   }
+
+  watch(valueYear, async newValue => {
+    console.log('Год изменился:', newValue);
+    await fetchData(newValue);
+    loadItems({ page: 1, itemsPerPage: itemsPerPage.value, sortBy: false });
+  }, { immediate: true });
+
   watch(name, () => {
     search.value = String(Date.now())
   })
+
+  function getTeamImage (item) {
+    switch (item.team.teamName) {
+      case 'Scuderia Ferrari':
+        return '/src/assets/teams/ferrari.jpg';
+      case 'Mercedes Formula 1 Team':
+        return '/src/assets/teams/mersedes.jpg';
+      case 'McLaren Formula 1 Team':
+        return '/src/assets/teams/mclaren.jpg';
+      case 'Red Bull Racing':
+        return '/src/assets/teams/redbull.jpg';
+      case 'RB F1 Team':
+        return '/src/assets/teams/rb.jpg';
+      case 'Haas F1 Team':
+        return '/src/assets/teams/haas.jpg';
+      case 'Sauber F1 Team':
+        return '/src/assets/teams/sauber.jpg';
+      case 'Aston Martin F1 Team':
+        return '/src/assets/teams/aston.jpg';
+      case 'Alpine F1 Team':
+        return '/src/assets/teams/alpine.jpg';
+      case 'Williams Racing':
+        return '/src/assets/teams/williams.jpg';
+
+      default:
+        return '/src/assets/teams/defteam.png'
+    }
+  }
+
 </script>

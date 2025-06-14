@@ -21,12 +21,12 @@
           <v-tab text="Команды" to="/cardteam" value="two" />
 
           <v-tab text="Гонщики" to="/driversall" value="three" />
-          <v-tab text="Гонщики" to="/driverResult" value="thour" />
+
         </v-tabs>
       </v-app-bar>
 
       <v-main>
-        <v-sheet height="40" />
+        <v-sheet height="10" />
       </v-main>
     </v-layout>
   </v-card>
@@ -35,7 +35,7 @@
     <v-container fluid>
       <v-row class="justify-center ">
         <v-col cols="2">
-          <v-combobox
+          <v-select
             v-model="valueYear"
             density="comfortable"
             :items="years"
@@ -89,7 +89,9 @@
                 class="pb-3"
                 flat
               >
-                <v-img
+                <v-img height="100" :src="getDriverImage(item)" />
+
+                <!-- <v-img
                   v-if="item.raw.driverId === 'hamilton'"
                   height="100"
                   src="https://c.f1news.ru/userfiles/ham-photo.jpg"
@@ -98,7 +100,7 @@
                   v-else
                   height="100"
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-m4D7gaOaHMGxxheIp_xF_OSzrba6G7MIA&s"
-                />
+                /> -->
 
                 <v-list-item class="mb-2" :subtitle="item.raw.surname">
                   <template #title>
@@ -119,7 +121,7 @@
                     size="small"
                     text="Далее"
                     variant="flat"
-                    @click="goToDriver(item.raw.driverId)"
+                    @click="goToDriver(item.raw.driverId, item.raw.surname, valueYear)"
                   />
                 </div>
               </v-card>
@@ -200,8 +202,56 @@
           }
         }
       },
-      goToDriver (driverId) {
-        this.$router.push(`/driverResult/?id=${driverId}`);
+      goToDriver (driverId, gname, gyear) {
+        this.$router.push({ path: '/driverResult/', query: { id: driverId, name: gname, year: gyear } });
+      },
+      getDriverImage (item) {
+        switch (item.raw.driverId) {
+          case 'hamilton':
+            return '/src/assets/pilots/hamilton.jpg';
+          case 'albon':
+            return '/src/assets/pilots/albon.jpg';
+          case 'alonso':
+            return '/src/assets/pilots/alonso.jpg';
+          case 'antonelli':
+            return '/src/assets/pilots/antonelli.jpg';
+          case 'bearman':
+            return '/src/assets/pilots/berman.jpg';
+          case 'bortoleto':
+            return '/src/assets/pilots/bortoleto.jpg';
+          case 'colapinto':
+            return '/src/assets/pilots/colapinto.jpg';
+          case 'doohan':
+            return '/src/assets/pilots/doohan.jpg';
+          case 'leclerc':
+            return '/src/assets/pilots/leclerc.jpg';
+          case 'gasly':
+            return '/src/assets/pilots/gasly.jpg';
+          case 'hadjar':
+            return '/src/assets/pilots/hadjar.jpg';
+          case 'hulkenberg':
+            return '/src/assets/pilots/hulk.jpg';
+          case 'lawson':
+            return '/src/assets/pilots/lawson.jpg';
+          case 'norris':
+            return '/src/assets/pilots/norris.jpg';
+          case 'ocon':
+            return '/src/assets/pilots/ocon.jpg';
+          case 'piastri':
+            return '/src/assets/pilots/piastri.jpg';
+          case 'russell':
+            return '/src/assets/pilots/russell.jpg';
+          case 'sainz':
+            return '/src/assets/pilots/sainz.jpg';
+          case 'stroll':
+            return '/src/assets/pilots/stroll.jpg';
+          case 'tsunoda':
+            return '/src/assets/pilots/tsunoda.jpg';
+          case 'max_verstappen':
+            return '/src/assets/pilots/verstappen.jpg';
+          default:
+            return '/src/assets/pilots/defaultpilot.png'
+        }
       },
     },
 

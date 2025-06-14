@@ -27,7 +27,7 @@
       </v-app-bar>
 
       <v-main>
-        <v-sheet height="40" />
+        <v-sheet height="10" />
       </v-main>
     </v-layout>
   </v-card>
@@ -36,7 +36,7 @@
     <v-container fluid>
       <v-row class="justify-center">
         <v-col cols="2">
-          <v-combobox
+          <v-select
             v-model="valueYear"
             density="comfortable"
             :items="years"
@@ -57,7 +57,7 @@
 
   <v-data-table-server
     v-model:items-per-page="itemsPerPage"
-    class="text-h6"
+    class="text-h8"
     :headers="headers"
     item-value="name"
     :items="serverItems"
@@ -66,7 +66,7 @@
     :search="search"
     @update:options="loadItems"
   >
-    <template #[`item.driver.surname`]="{ item }">
+    <!-- <template #[`item.driver.surname`]="{ item }">
       <span>{{ item.driver.surname }}
         <img
           v-if="item.driver.surname === 'Hamilton'"
@@ -76,7 +76,7 @@
           width=""
         >
       </span>
-    </template>
+    </template> -->
     <template #tfoot>
       <tr>
         <td>
@@ -92,33 +92,46 @@
       </tr>
     </template>
   </v-data-table-server>
+  <Table2 :user="userP" />
 </template>
 <script setup>
-  import { onMounted, ref, watch } from 'vue'
+  import { onMounted, ref, shallowRef, watch } from 'vue'
   import axios from 'axios'
+  import { useRoute } from 'vue-router';
+  const route = useRoute();
 
   // Инициализация реактивных данных
   const posts = ref([])
   const errors = ref([])
-  const valueYear = ref('2025')
-  const years = ['2025', '2024', '2023', '2022']
+  const tableYear = route.query.year;
+  const valueYear = ref(tableYear ? tableYear : '2025')
+  const years = ['2025', '2024', '2023', '2022', '2021', '2020']
+  const tabs = shallowRef(null)
 
+  const userP = {
+    nameJJ: valueYear,
+  }
+  // const tabs = ref(null)
 
-  const tabs = ref(null)
-
-  async function fetchData () {
+  async function fetchData (year) {
     try {
-      const response = await axios.get('https://f1api.dev/api/2025/drivers-championship')
-      posts.value = response.data.drivers_championship
+      const response = await axios.get(`https://f1api.dev/api/${year}/drivers-championship`)
+      posts.value = response.data.drivers_championship || []
     } catch (err) {
       errors.value.push(err.message || err.toString())
     }
   }
+
+  // function goToTab2 (tabyear) {
+  //   console.log('Год изменился:', tabyear);
+  //   route.push(`/table2/?id=${tabyear}`);
+  //   route.push({ path: '/table2/', query: { year: tabyear } });
+  // }
+
   // Метод fetchData для загрузки данных при монтировании компонента
   onMounted(() => {
-    fetchData()
+    fetchData(valueYear.value)
   })
-
 
   const FakeAPI = {
     async fetch ({ page, itemsPerPage, sortBy, search }) {
@@ -133,15 +146,6 @@
             }
             return true
           })
-          //   if (sortBy.length) {
-          //     const sortKey = sortBy[0].key
-          //     const sortOrder = sortBy[0].order
-          //     items.value.sort((a, b) => {
-          //       const aValue = a[sortKey]
-          //       const bValue = b[sortKey]
-          //       return sortOrder === 'desc' ? bValue - aValue : aValue - bValue
-          //     })
-          //   }
           // Если включена сортировка
           if (sortBy.length) {
             const sortKey = sortBy[0].key
@@ -183,15 +187,14 @@
     { title: 'team', key: 'team.teamName' },
     { title: 'points', key: 'points' },
 
-
   ])
-
 
   const serverItems = ref([])
   const loading = ref(true)
   const totalItems = ref(0)
   const name = ref('')
   const search = ref('')
+
   function loadItems ({ page, itemsPerPage, sortBy }) {
     loading.value = true
     FakeAPI.fetch({ page, itemsPerPage, sortBy, search: { value: search.value } }).then(({ items, total }) => {
@@ -200,6 +203,14 @@
       loading.value = false
     })
   }
+
+  watch(valueYear, async newValue => {
+    console.log('Год изменился:', newValue);
+    await fetchData(newValue);
+    loadItems({ page: 1, itemsPerPage: itemsPerPage.value, sortBy: false });
+    // goToTab2(newValue);
+  }, { immediate: true });
+
   watch(name, () => {
     search.value = String(Date.now())
   })

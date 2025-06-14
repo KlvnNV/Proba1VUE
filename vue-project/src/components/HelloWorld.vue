@@ -1,9 +1,13 @@
 <template>
-  <v-container class="mb-4" max-width="900">
+  <v-container
+    class="mb-4"
+    fluid
+    max-width="900"
+  >
     <div>
       <v-img
-        class="mb-4"
-        height="350"
+        class="mb-0"
+        height="250"
         src="@/assets/logo.png"
       />
       <!-- <v-card
@@ -46,7 +50,7 @@
       </v-container> -->
       <!-- <v-row>{{ el }}</v-row> -->
       <v-row>
-        <v-col cols="12">
+        <!-- <v-col cols="12">
           <v-card
             class="py-4"
             color="surface-variant"
@@ -65,13 +69,13 @@
               </h2>
             </template>
 
-            <!-- <template #subtitle>
+            <template #subtitle>
               <div class="text-subtitle-1">
                 Change this page by updating <v-kbd>{{ `<HelloWorld />` }}</v-kbd> in <v-kbd>components/HelloWorld.vue</v-kbd>.
               </div>
-            </template> -->
+            </template>
           </v-card>
-        </v-col>
+        </v-col> -->
 
         <v-col v-for="link in links" :key="link.href" cols="12">
           <v-card
