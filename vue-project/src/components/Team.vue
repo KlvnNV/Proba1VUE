@@ -98,13 +98,13 @@
                   <td>{{ item.raw.driver.number }}</td>
                 </tr>
 
-                <tr align="right">
+                <tr align="right" style="cursor: pointer;" @click="goToDriver(item.raw.driver.driverId, item.raw.driver.surname, valueYear)">
                   <th>points:</th>
 
                   <td>{{ item.raw.driver.points }}</td>
                 </tr>
 
-                <tr align="right">
+                <tr align="right" style="cursor: pointer;" @click="goToTable(valueYear)">
                   <th>position:</th>
 
                   <td>{{ item.raw.driver.position }}</td>
@@ -180,6 +180,14 @@
             this.errorMessage = 'Что-то пошло не так.';
           }
         }
+      },
+
+      goToDriver (driverId, gname, gyear) {
+        this.$router.push({ path: '/driverResult/', query: { id: driverId, name: gname, year: gyear } });
+      },
+
+      goToTable (tabyear) {
+        this.$router.push({ path: '/tables/', query: { year: tabyear } });
       },
 
       getDriverImage (item) {

@@ -65,6 +65,10 @@
     :search="search"
     @update:options="loadItems"
   >
+    <template #[`item.result.pointsObtained`]="{ item }">
+      <v-btn class="d-flex justify-center" @click="goToTable(valueYear)">{{ item.result.pointsObtained }}
+      </v-btn>
+    </template>
     <!-- <template #[`item.driver.surname`]="{ item }">
       <span>{{ item.driver.surname }}
         <img
@@ -96,8 +100,10 @@
   import { onMounted, ref, shallowRef, watch } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router';
-  const route = useRoute();
+  import { useRouter } from 'vue-router';
 
+  const route = useRoute();
+  const router = useRouter();
   // Инициализация реактивных данных
   const posts = ref([])
   const errorMessage = ref('');
@@ -198,6 +204,12 @@
       loading.value = false
     })
   }
+
+  function goToTable (tabyear) {
+    router.push({ path: '/tables/', query: { year: tabyear } });
+  }
+
+
   // watch(name, () => {
   //   search.value = String(Date.now())
   // })

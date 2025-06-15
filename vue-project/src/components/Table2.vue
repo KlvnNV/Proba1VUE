@@ -18,8 +18,12 @@
     @update:options="loadItems"
   >
     <template #[`item.team.teamName`]="{ item }">
-      <span class="d-flex flex-row align-center"><img height="20" :src="getTeamImage(item)"> {{ item.team.teamName }}
-
+      <!-- <v-tab class="px-0 py-0" @click="goToTeam(item.teamId, item.team.teamName, valueYear)"> -->
+      <span class="d-flex flex-row align-center">
+        <v-btn class="px-0 py-0" @click="goToTeam(item.teamId, item.team.teamName, valueYear)">
+          <img height="30" :src="getTeamImage(item)">
+        </v-btn>
+        {{ item.team.teamName }}
         <!-- <img
           v-if="item.team.teamName === 'Scuderia Ferrari'"
           alt="{{ item.team.teamName }}"
@@ -34,8 +38,8 @@
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-m4D7gaOaHMGxxheIp_xF_OSzrba6G7MIA&s"
           width="20"
         > -->
-
       </span>
+      <!-- </v-tab> -->
     </template>
     <template #tfoot>
       <tr>
@@ -56,9 +60,9 @@
 <script setup>
   import { onMounted, ref, watch } from 'vue'
   import axios from 'axios'
-  import { defineProps } from 'vue';
-  // import { useRoute } from 'vue-router';
-  // const route = useRoute();
+  // import { defineProps } from 'vue';
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
   // Инициализация реактивных данных
   const posts = ref([])
   const errors = ref([])
@@ -157,6 +161,10 @@
       totalItems.value = total
       loading.value = false
     })
+  }
+
+  function goToTeam (teamId, tname, tyear) {
+    router.push({ path: '/team/', query: { id: teamId, name: tname, year: tyear } });
   }
 
   watch(valueYear, async newValue => {

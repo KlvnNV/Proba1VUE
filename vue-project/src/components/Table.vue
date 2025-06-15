@@ -66,6 +66,15 @@
     :search="search"
     @update:options="loadItems"
   >
+    <template #[`item.driver.surname`]="{ item }">
+      <span class="d-flex flex-row align-center">
+        <v-btn class="px-0 py-0" @click="goToDriver(item.driverId, item.driver.surname, valueYear)">
+          <img height="30" :src="getDriverImage(item)">
+        </v-btn>
+        {{ item.driver.surname }}
+      </span>
+    </template>
+
     <!-- <template #[`item.driver.surname`]="{ item }">
       <span>{{ item.driver.surname }}
         <img
@@ -99,6 +108,8 @@
   import axios from 'axios'
   import { useRoute } from 'vue-router';
   const route = useRoute();
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
 
   // Инициализация реактивных данных
   const posts = ref([])
@@ -204,6 +215,10 @@
     })
   }
 
+  function goToDriver (driverId, gname, gyear) {
+    router.push({ path: '/driverResult/', query: { id: driverId, name: gname, year: gyear } });
+  }
+
   watch(valueYear, async newValue => {
     console.log('Год изменился:', newValue);
     await fetchData(newValue);
@@ -214,4 +229,54 @@
   watch(name, () => {
     search.value = String(Date.now())
   })
+
+  function getDriverImage (item) {
+    switch (item.driverId) {
+      case 'hamilton':
+        return '/src/assets/pilots/hamilton.jpg';
+      case 'albon':
+        return '/src/assets/pilots/albon.jpg';
+      case 'alonso':
+        return '/src/assets/pilots/alonso.jpg';
+      case 'antonelli':
+        return '/src/assets/pilots/antonelli.jpg';
+      case 'bearman':
+        return '/src/assets/pilots/berman.jpg';
+      case 'bortoleto':
+        return '/src/assets/pilots/bortoleto.jpg';
+      case 'colapinto':
+        return '/src/assets/pilots/colapinto.jpg';
+      case 'doohan':
+        return '/src/assets/pilots/doohan.jpg';
+      case 'leclerc':
+        return '/src/assets/pilots/leclerc.jpg';
+      case 'gasly':
+        return '/src/assets/pilots/gasly.jpg';
+      case 'hadjar':
+        return '/src/assets/pilots/hadjar.jpg';
+      case 'hulkenberg':
+        return '/src/assets/pilots/hulk.jpg';
+      case 'lawson':
+        return '/src/assets/pilots/lawson.jpg';
+      case 'norris':
+        return '/src/assets/pilots/norris.jpg';
+      case 'ocon':
+        return '/src/assets/pilots/ocon.jpg';
+      case 'piastri':
+        return '/src/assets/pilots/piastri.jpg';
+      case 'russell':
+        return '/src/assets/pilots/russell.jpg';
+      case 'sainz':
+        return '/src/assets/pilots/sainz.jpg';
+      case 'stroll':
+        return '/src/assets/pilots/stroll.jpg';
+      case 'tsunoda':
+        return '/src/assets/pilots/tsunoda.jpg';
+      case 'max_verstappen':
+        return '/src/assets/pilots/verstappen.jpg';
+      default:
+        return '/src/assets/pilots/defaultpilot.png'
+    }
+  }
+
 </script>
