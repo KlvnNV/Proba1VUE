@@ -102,6 +102,7 @@
     </template>
   </v-data-table-server>
   <Table2 :user="userP" />
+  <Caldar :user="userP" />
 </template>
 <script setup>
   import { onMounted, ref, shallowRef, watch } from 'vue'

@@ -25,7 +25,6 @@ const router = createRouter({
     { path: '/driversall', component: Driversall },
     { path: '/cardteam', component: Cardteam },
     { path: '/tables', component: Table },
-    // { path: '/tables/table2', component: Table2 },
 
   ],
 })
