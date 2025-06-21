@@ -105,7 +105,7 @@
   <Caldar :user="userP" />
 </template>
 <script setup>
-  import { onMounted, ref, shallowRef, watch } from 'vue'
+  import { /*onMounted,*/ ref, shallowRef, watch } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router';
   const route = useRoute();
@@ -127,7 +127,7 @@
 
   async function fetchData (year) {
     try {
-      const response = await axios.get(`https://f1api.dev/api/${year}/drivers-championship`)
+      const response = await axios.get(`/api/${year}/drivers-championship`)
       posts.value = response.data.drivers_championship || []
     } catch (err) {
       errors.value.push(err.message || err.toString())
@@ -141,9 +141,9 @@
   // }
 
   // Метод fetchData для загрузки данных при монтировании компонента
-  onMounted(() => {
-    fetchData(valueYear.value)
-  })
+  // onMounted(() => {
+  //   fetchData(valueYear.value)
+  // })
 
   const FakeAPI = {
     async fetch ({ page, itemsPerPage, sortBy, search }) {

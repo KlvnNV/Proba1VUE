@@ -110,7 +110,7 @@
                   src="https://cdn-icons-png.freepik.com/256/16000/16000950.png?semt=ais_hybrid"
                 /> -->
 
-                  <v-list-item class="mb-2" :subtitle="item.raw.teamId">
+                  <v-list-item class="mb-2" :subtitle="`Участие с ${item.raw.firstAppeareance}`">
                     <template #title>
                       <strong class="text-h6 mb-2">{{ item.raw.teamName }}</strong>
                     </template>
@@ -118,7 +118,7 @@
 
                   <div class="d-flex justify-space-between px-4">
                     <div class="d-flex align-center text-caption text-medium-emphasis me-1">
-                      <v-icon icon="mdi-clock" start />
+                      <v-icon icon="mdi-google-maps" start />
 
                       <div class="text-truncate">{{ item.raw.teamNationality }}</div>
                     </div>
@@ -198,13 +198,13 @@
         immediate: true,
       },
     },
-    mounted () {
-      this.fetchData(this.valueYear);
-    },
+    // mounted () {
+    //   this.fetchData(this.valueYear);
+    // },
     methods: {
       async fetchData (year) {
         try {
-          const response = await axios.get(`https://f1api.dev/api/${year}/teams`);
+          const response = await axios.get(`/api/${year}/teams`);
           this.posts = response.data.teams || [];
           this.errorMessage = '';
         }

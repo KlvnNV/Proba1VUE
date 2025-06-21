@@ -58,7 +58,7 @@
   </v-data-table-server>
 </template>
 <script setup>
-  import { onMounted, ref, watch } from 'vue'
+  import { /*onMounted,*/ ref, watch } from 'vue'
   import axios from 'axios'
   // import { defineProps } from 'vue';
   import { useRouter } from 'vue-router';
@@ -75,16 +75,16 @@
 
   async function fetchData (year) {
     try {
-      const response = await axios.get(`https://f1api.dev/api/${year}/constructors-championship`)
+      const response = await axios.get(`/api/${year}/constructors-championship`)
       posts.value = response.data.constructors_championship
     } catch (err) {
       errors.value.push(err.message || err.toString())
     }
   }
   // Метод fetchData для загрузки данных при монтировании компонента
-  onMounted(() => {
-    fetchData(valueYear.value)
-  })
+  // onMounted(() => {
+  //   fetchData(valueYear.value)
+  // })
 
   const FakeAPI = {
     async fetch ({ page, itemsPerPage, sortBy, search }) {

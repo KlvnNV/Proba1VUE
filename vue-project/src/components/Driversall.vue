@@ -188,7 +188,7 @@
     methods: {
       async fetchData (year) {
         try {
-          const response = await axios.get(`https://f1api.dev/api/${year}/drivers`);
+          const response = await axios.get(`/api/${year}/drivers`);
           this.posts = response.data.drivers || [];
           this.errorMessage = '';
         }

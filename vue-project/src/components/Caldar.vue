@@ -149,7 +149,7 @@
 
   async function fetchData (year) {
     try {
-      const response = await axios.get(`https://f1api.dev/api/${year}`)
+      const response = await axios.get(`/api/${year}`)
       posts.value = response.data.races
     } catch (err) {
       errors.value.push(err.message || err.toString())

@@ -62,6 +62,15 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    proxy: {
+      '/api': {
+        target: 'https://f1api.dev/api', // Ваш API сервер
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ''),
+        secure: false, // Если нужен обход SSL
+      },
+
+    },
   },
   css: {
     preprocessorOptions: {
