@@ -113,19 +113,19 @@
     {
       href: '/tables',
       icon: 'mdi-text-box-outline',
-      subtitle: 'Результаты гонщиков и команд за сезон.',
+      subtitle: 'Результаты гонщиков, команд и календарь чемпионата.',
       title: 'Чемпионат',
     },
     {
       href: '/cardteam',
       icon: 'mdi-widgets-outline',
-      subtitle: 'Список команд по годам.',
+      subtitle: 'Список команд чемпионата.',
       title: 'Команды',
     },
     {
       href: '/driversall',
       icon: 'mdi-star-circle-outline',
-      subtitle: 'Список гощиков по годам.',
+      subtitle: 'Список гощиков чемпионата.',
       title: 'Гонщики',
     },
     // {

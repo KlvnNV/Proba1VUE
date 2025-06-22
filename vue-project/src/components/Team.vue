@@ -1,57 +1,22 @@
 <template>
-  <v-card>
-    <v-layout>
-      <v-app-bar
-        absolute
-        :elevation="24"
-        flat
-        rounded
-      >
-        <v-tabs
-          v-model="tabs"
-          align-tabs="title"
-          slider-color="green"
-        >
-          <!-- <v-tab
-            color="surface-variant"
-            prepend-icon="mdi-rocket-launch-outline"
-            rounded="lg"
-            to="/"
-          /> -->
-          <v-tab to="/">
-            <img alt="Логотип моего приложения" height="50" src="@/assets/logo.png">
-          </v-tab>
+  <Nav />
 
-
-          <v-tab text="Чемпионат" to="/tables" value="one" />
-
-          <v-tab text="Команды" to="/cardteam" value="two" />
-
-          <v-tab text="Гонщики" to="/driversall" value="three" />
-        </v-tabs>
-      </v-app-bar>
-
-      <v-main>
-        <v-sheet height="10" />
-      </v-main>
-    </v-layout>
-  </v-card>
-
-  <v-card>
-    <v-container fluid>
-      <v-row class="justify-center ">
-        <v-col cols="2">
-          <v-select
-            v-model="valueYear"
-            density="comfortable"
-            :items="years"
-            label="ГОД"
-            style="min-width: 120px"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-card>
+  <v-container
+    class="pl-0 pr-0 pb-0"
+    fluid
+  >
+    <v-row class="justify-center align-center">
+      <v-col cols="2">
+        <v-select
+          v-model="valueYear"
+          density="comfortable"
+          :items="years"
+          label="ГОД"
+          style="min-width: 120px"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 
   <v-data-iterator
     :items="posts"
@@ -93,27 +58,20 @@
             <v-table class="text-caption" density="compact">
               <tbody>
                 <tr align="right">
-                  <th>number:</th>
-
+                  <th>Номер пилота:</th>
                   <td>{{ item.raw.driver.number }}</td>
                 </tr>
-
-                <tr align="right" style="cursor: pointer;" @click="goToDriver(item.raw.driver.driverId, item.raw.driver.surname, valueYear)">
-                  <th>points:</th>
-
-                  <td>{{ item.raw.driver.points }}</td>
-                </tr>
-
-                <tr align="right" style="cursor: pointer;" @click="goToTable(valueYear)">
-                  <th>position:</th>
-
+                <tr align="right" style="cursor: pointer; background-color: rgb(60, 60, 60)" @click="goToTable(valueYear)">
+                  <th>Позиция:</th>
                   <td>{{ item.raw.driver.position }}</td>
                 </tr>
-
                 <tr align="right">
-                  <th>wins:</th>
-
+                  <th>Победы:</th>
                   <td>{{ item.raw.driver.wins }}</td>
+                </tr>
+                <tr align="right" style="cursor: pointer; background-color: rgb(60, 60, 60)" @click="goToDriver(item.raw.driver.driverId, item.raw.driver.surname, valueYear)">
+                  <th>Очки:</th>
+                  <td>{{ item.raw.driver.points }}</td>
                 </tr>
               </tbody>
             </v-table>

@@ -1,10 +1,6 @@
 <template>
   <HelloWorld />
-  <!-- <Get /> -->
-  <Tables />
-  <!-- <Table2 /> -->
-  <Caldar />
-
+  <Table />
   <DriverResult />
   <Cardteam />
   <Driversall />

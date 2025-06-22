@@ -51,27 +51,34 @@
       </tr>
     </template> -->
   </v-data-table-server>
-  <v-row class="d-flex justify-center mt-4 align-center">
+  <v-row class="d-flex justify-center mt-0 align-center">
     <v-col cols="4">
       <v-text-field v-model="formattedDate" class="text-align-content-center" placeholder="Выберите начальную и конечную дату" readonly />
     </v-col>
     <v-btn @click="clearFilter">Очистить фильтр</v-btn>
   </v-row>
-  <v-row class="d-flex justify-center mb-4 align-center">
+  <v-row class="d-flex justify-center mb-4 mt-0 align-center">
     <!-- <v-col> -->
     <v-date-picker
       v-model="dateFrom"
       first-day-of-week="1"
+      :hide-header="true"
+      :hide-weekdays="true"
+      locale="ru-RU"
       :max="'2025-12-31'"
       :min="'2020-01-01'"
+      :min-height="350"
       min-width="120"
       title="Начало периода"
     />
     <v-date-picker
       v-model="dateTo"
       first-day-of-week="1"
+      :hide-header="true"
+      :hide-weekdays="true"
       :max="'2025-12-31'"
       :min="'2020-01-01'"
+      :min-height="350"
       min-width="120"
       title="Конец периода"
     />

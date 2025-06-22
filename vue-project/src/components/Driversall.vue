@@ -1,5 +1,6 @@
 <template>
-  <v-card>
+  <Nav />
+  <!-- <v-card>
     <v-layout>
       <v-app-bar
         absolute
@@ -29,11 +30,14 @@
         <v-sheet height="10" />
       </v-main>
     </v-layout>
-  </v-card>
+  </v-card> -->
 
   <v-card>
-    <v-container fluid>
-      <v-row class="justify-center ">
+    <v-container
+      class="pl-0 pr-0 pb-0"
+      fluid
+    >
+      <v-row class="justify-center align-center">
         <v-col cols="2">
           <v-select
             v-model="valueYear"
@@ -66,9 +70,10 @@
             v-model="search"
             clearable
             density="comfortable"
-            hide-details
-            placeholder="Search name driver"
+            hide-details="auto"
+            placeholder="Поиск по имени пилота"
             prepend-inner-icon="mdi-magnify"
+            :rules="validationRules"
             style="max-width: 300px;"
             variant="solo"
           />
@@ -81,26 +86,17 @@
             <v-col
               v-for="item in items"
               :key="item.driverId"
-              cols="auto"
+              cols="4"
               md="4"
+              style="min-width: 200px"
             >
               <v-card
                 border
                 class="pb-3"
+                color="grey-darken-3"
                 flat
               >
                 <v-img height="100" :src="getDriverImage(item)" />
-
-                <!-- <v-img
-                  v-if="item.raw.driverId === 'hamilton'"
-                  height="100"
-                  src="https://c.f1news.ru/userfiles/ham-photo.jpg"
-                />
-                <v-img
-                  v-else
-                  height="100"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-m4D7gaOaHMGxxheIp_xF_OSzrba6G7MIA&s"
-                /> -->
 
                 <v-list-item class="mb-2" :subtitle="item.raw.surname">
                   <template #title>
@@ -110,16 +106,16 @@
 
                 <div class="d-flex justify-space-between px-4">
                   <div class="d-flex align-center text-caption text-medium-emphasis me-1">
-                    <v-icon icon="mdi-clock" start />
+                    <v-icon icon="mdi-car-sports" start />
 
-                    <div class="text-truncate">{{ item.raw.teamId }}</div>
+                    <div class="text-truncate">Номер: {{ item.raw.number }}</div>
                   </div>
 
                   <v-btn
                     border
                     class="text-none"
                     size="small"
-                    text="Далее"
+                    text="Подробнее"
                     variant="flat"
                     @click="goToDriver(item.raw.driverId, item.raw.surname, valueYear)"
                   />
@@ -142,7 +138,7 @@
           />
 
           <div class="mx-2 text-caption">
-            Page {{ page }} of {{ pageCount }}
+            Страница {{ page }} из {{ pageCount }}
           </div>
 
           <v-btn
@@ -174,6 +170,10 @@
     data () {
       return {
         posts: [], errorMessage: '',
+        validationRules: [
+          v => /^[a-zA-Z\s]*$/.test(v) || ('Используйте английские буквы.'),
+        ],
+
       }
     },
     watch: {

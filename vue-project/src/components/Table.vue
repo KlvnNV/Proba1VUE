@@ -1,6 +1,6 @@
 <template>
-
-  <v-card>
+  <Nav />
+  <!-- <v-card>
     <v-layout>
       <v-app-bar
         absolute
@@ -30,17 +30,21 @@
         <v-sheet height="10" />
       </v-main>
     </v-layout>
-  </v-card>
+  </v-card> -->
 
   <v-card>
-    <v-container fluid>
-      <v-row class="justify-center">
+    <v-container
+      class="pl-0 pr-0 pb-0"
+      fluid
+    >
+      <v-row class="justify-center align-center">
         <v-col cols="2">
           <v-select
             v-model="valueYear"
             density="comfortable"
             :items="years"
             label="ГОД"
+            style="min-width: 120px"
           />
         </v-col>
       </v-row>
@@ -66,36 +70,27 @@
     :search="search"
     @update:options="loadItems"
   >
-    <template #[`item.driver.surname`]="{ item }">
+    <template #[`item.driver.name`]="{ item }">
       <span class="d-flex flex-row align-center">
-        <v-btn class="px-0 py-0" @click="goToDriver(item.driverId, item.driver.surname, valueYear)">
+        <v-btn class="px-0 py-0" color="rgb(50, 50, 50)" @click="goToDriver(item.driverId, item.driver.surname, valueYear)">
           <img height="30" :src="getDriverImage(item)">
         </v-btn>
-        {{ item.driver.surname }}
+        {{ item.driver.name }}
       </span>
     </template>
 
-    <!-- <template #[`item.driver.surname`]="{ item }">
-      <span>{{ item.driver.surname }}
-        <img
-          v-if="item.driver.surname === 'Hamilton'"
-          alt="{{ item.driver.surname }}"
-          height="20"
-          src="https://c.f1news.ru/userfiles/ham-photo.jpg"
-          width=""
-        >
-      </span>
-    </template> -->
     <template #tfoot>
       <tr>
-        <td>
+        <td />
+        <td colspan="2">
           <v-text-field
             v-model="search"
-            class="mx-auto"
+            class="w-100 mx-auto"
             clearable
             density="compact"
-            hide-details
-            placeholder="Search name..."
+            hide-details="auto"
+            placeholder="Поиск по имени"
+            :rules="validationRules"
           />
         </td>
       </tr>
@@ -105,7 +100,7 @@
   <Caldar :user="userP" />
 </template>
 <script setup>
-  import { /*onMounted,*/ ref, shallowRef, watch } from 'vue'
+  import { /*onMounted,*/ ref,/* shallowRef,*/ watch } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router';
   const route = useRoute();
@@ -118,7 +113,8 @@
   const tableYear = route.query.year;
   const valueYear = ref(tableYear ? tableYear : '2025')
   const years = ['2025', '2024', '2023', '2022', '2021', '2020']
-  const tabs = shallowRef(null)
+  // const tabs = shallowRef(null)
+  const validationRules= [v => /^[a-zA-Z\s]*$/.test(v) || ('Используйте английские буквы.')];
 
   const userP = {
     nameJJ: valueYear,
@@ -194,10 +190,10 @@
       sortable: false,
       key: 'position',
     },
-    { title: 'First Name', key: 'driver.name', sortable: false },
-    { title: 'Last Name', key: 'driver.surname' },
-    { title: 'team', key: 'team.teamName' },
-    { title: 'points', key: 'points' },
+    { title: 'Имя', key: 'driver.name', sortable: false },
+    { title: 'Фамилия', key: 'driver.surname', sortable: false },
+    { title: 'Команда', key: 'team.teamName', sortable: false },
+    { title: 'Очки', key: 'points', sortable: false },
 
   ])
 

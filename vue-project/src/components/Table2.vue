@@ -18,39 +18,26 @@
     @update:options="loadItems"
   >
     <template #[`item.team.teamName`]="{ item }">
-      <!-- <v-tab class="px-0 py-0" @click="goToTeam(item.teamId, item.team.teamName, valueYear)"> -->
       <span class="d-flex flex-row align-center">
-        <v-btn class="px-0 py-0" @click="goToTeam(item.teamId, item.team.teamName, valueYear)">
+        <v-btn class="px-0 py-0" color="rgb(50, 50, 50)" @click="goToTeam(item.teamId, item.team.teamName, valueYear)">
           <img height="30" :src="getTeamImage(item)">
         </v-btn>
         {{ item.team.teamName }}
-        <!-- <img
-          v-if="item.team.teamName === 'Scuderia Ferrari'"
-          alt="{{ item.team.teamName }}"
-          height="20"
-          src="https://c.f1news.ru/userfiles/ham-photo.jpg"
-          width="20"
-        >
-        <img
-          v-else
-          alt="{{ item.team.teamName }}"
-          height="20"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-m4D7gaOaHMGxxheIp_xF_OSzrba6G7MIA&s"
-          width="20"
-        > -->
       </span>
-      <!-- </v-tab> -->
     </template>
     <template #tfoot>
       <tr>
+        <td />
         <td>
           <v-text-field
             v-model="search"
             class="mx-auto"
             clearable
             density="compact"
-            hide-details
-            placeholder="Search name..."
+            hide-details="auto"
+            placeholder="Поиск по названию"
+            :rules="validationRules"
+            style="min-width: 150px;"
           />
         </td>
       </tr>
@@ -71,6 +58,7 @@
   const valueYear = ref(props.user.nameJJ || '2022')//tableYear? tableYear : '2025'
   // const years = ['2025', '2024', '2023', '2022']
   // const tabs = shallowRef(null)
+  const validationRules= [v => /^[a-zA-Z\s]*$/.test(v) || ('Используйте английские буквы.')];
 
 
   async function fetchData (year) {
@@ -144,10 +132,10 @@
       sortable: false,
       key: 'position',
     },
-    { title: 'wins', key: 'wins', sortable: false },
-    { title: 'country', key: 'team.country' },
-    { title: 'team', key: 'team.teamName' },
-    { title: 'points', key: 'points' },
+    { title: 'Название команды', key: 'team.teamName', sortable: false },
+    { title: 'Страна', key: 'team.country', sortable: false },
+    { title: 'Побед', key: 'wins', sortable: false },
+    { title: 'Очки', key: 'points', sortable: false },
   ])
   const serverItems = ref([])
   const loading = ref(true)
