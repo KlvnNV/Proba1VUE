@@ -1,5 +1,5 @@
 <template>
-  <Nav />
+  <!-- <Nav /> -->
 
   <v-container
     class="pl-0 pr-0 pb-0"

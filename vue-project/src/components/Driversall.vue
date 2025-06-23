@@ -1,5 +1,5 @@
 <template>
-  <Nav />
+  <!-- <Nav /> -->
   <!-- <v-card>
     <v-layout>
       <v-app-bar
@@ -88,7 +88,7 @@
               :key="item.driverId"
               cols="4"
               md="4"
-              style="min-width: 200px"
+              style="min-width: 220px"
             >
               <v-card
                 border

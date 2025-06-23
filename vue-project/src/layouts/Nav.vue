@@ -23,22 +23,38 @@
 
         <v-tab text="Гонщики" to="/driversall" value="three" />
       </v-tabs>
+      <v-btn class="ml-auto" @click="toggleTheme"><v-icon icon="mdi-theme-light-dark" /></v-btn>
     </v-app-bar>
-
-    <!-- <v-main>
-        <v-sheet height="10" />
-      </v-main> -->
   </v-container>
-
 </template>
 <script>
   import { shallowRef } from 'vue';
+  import { useTheme } from 'vuetify';
   export default {
+    name: 'AppNav',
     setup () {
       const tabs = shallowRef('')
+      const theme = useTheme()
       return {
-        tabs,
+        tabs, theme,
       };
+    },
+    methods: {
+      toggleTheme () {
+        this.theme.global.name.value = this.theme.global.current.value.dark ? 'light' : 'dark';
+      },
     },
   }
 </script>
+<style scoped>
+
+@media screen and (max-width: 768px) {
+    .v-app-bar {
+        width: 400px;
+        padding: 0px;
+    }
+    .v-tab {
+        font-size: 10px;
+    }
+}
+</style>

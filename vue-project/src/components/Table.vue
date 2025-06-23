@@ -1,5 +1,5 @@
 <template>
-  <Nav />
+  <!-- <Nav /> -->
   <!-- <v-card>
     <v-layout>
       <v-app-bar

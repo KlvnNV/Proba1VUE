@@ -1,5 +1,5 @@
 <template>
-  <Nav />
+  <!-- <Nav /> -->
   <!-- <v-card>
       <v-layout>
         <v-app-bar
@@ -87,7 +87,7 @@
               :key="item.teamId"
               cols="4"
               md="4"
-              style="min-width: 200px"
+              style="min-width: 260px"
             >
               <v-card
                 border

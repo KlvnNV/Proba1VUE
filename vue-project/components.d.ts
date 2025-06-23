@@ -14,7 +14,7 @@ declare module 'vue' {
     DriverResult: typeof import('./src/components/DriverResult.vue')['default']
     Driversall: typeof import('./src/components/Driversall.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    Nav: typeof import('./src/components/Nav.vue')['default']
+    Nav: typeof import('./src/layouts/Nav.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./src/components/Table.vue')['default']
