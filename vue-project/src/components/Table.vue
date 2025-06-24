@@ -1,37 +1,4 @@
 <template>
-  <!-- <Nav /> -->
-  <!-- <v-card>
-    <v-layout>
-      <v-app-bar
-        absolute
-        :elevation="24"
-        flat
-        rounded
-      >
-        <v-tabs
-          v-model="tabs"
-          align-tabs="title"
-          slider-color="green"
-        >
-          <v-tab to="/">
-            <img alt="Логотип моего приложения" height="50" src="@/assets/logo.png">
-          </v-tab>
-
-
-          <v-tab text="Чемпионат" to="/tables" value="one" />
-
-          <v-tab text="Команды" to="/cardteam" value="two" />
-
-          <v-tab text="Гонщики" to="/driversall" value="three" />
-        </v-tabs>
-      </v-app-bar>
-
-      <v-main>
-        <v-sheet height="10" />
-      </v-main>
-    </v-layout>
-  </v-card> -->
-
   <v-card>
     <v-container
       class="pl-0 pr-0 pb-0"
@@ -61,7 +28,7 @@
 
   <v-data-table-server
     v-model:items-per-page="itemsPerPage"
-    class="text-h8"
+    class="custom-class"
     :headers="headers"
     item-value="name"
     :items="serverItems"
@@ -277,3 +244,43 @@
   }
 
 </script>
+<style scoped>
+
+.custom-class {
+  font-size: 14px;
+  font-weight: 300;
+}
+/* Aдаптация для мобильных устройств (например, iPhone 5) */
+@media only screen and (min-width: 640px) {
+.custom-class {
+    font-size: 14px !important;
+  }
+}
+
+/* Планшеты (iPad) */
+@media only screen and (min-width: 768px) {
+.custom-class {
+    font-size: 16px !important;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+.custom-class {
+    font-size: 18px !important;
+  }
+}
+
+/* Настольные компьютеры */
+@media only screen and (min-width: 1366px) {
+.custom-class {
+    font-size: 20px !important;
+  }
+}
+
+/* Широкий монитор (Full HD и больше) */
+@media only screen and (min-width: 1920px) {
+.custom-class {
+    font-size: 22px !important;
+  }
+}
+</style>

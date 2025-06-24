@@ -82,7 +82,7 @@
 
       <template #default="{ items }">
         <v-container class="pa-2">
-          <v-row dense>
+          <v-row class="d-flex justify-center align-center" dense>
             <v-col
               v-for="item in items"
               :key="item.driverId"

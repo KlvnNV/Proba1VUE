@@ -9,6 +9,7 @@
 
   <v-data-table-server
     v-model:items-per-page="itemsPerPage"
+    class="custom-class"
     :headers="headers"
     item-value="name"
     :items="serverItems"
@@ -194,3 +195,43 @@
   }
 
 </script>
+<style scoped>
+
+.custom-class {
+  font-size: 14px;
+  font-weight: 300;
+}
+/* Aдаптация для мобильных устройств (например, iPhone 5) */
+@media only screen and (min-width: 640px) {
+.custom-class {
+    font-size: 14px !important;
+  }
+}
+
+/* Планшеты (iPad) */
+@media only screen and (min-width: 768px) {
+.custom-class {
+    font-size: 16px !important;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+.custom-class {
+    font-size: 18px !important;
+  }
+}
+
+/* Настольные компьютеры */
+@media only screen and (min-width: 1366px) {
+.custom-class {
+    font-size: 20px !important;
+  }
+}
+
+/* Широкий монитор (Full HD и больше) */
+@media only screen and (min-width: 1920px) {
+.custom-class {
+    font-size: 22px !important;
+  }
+}
+</style>

@@ -32,13 +32,14 @@
     </template>
 
     <template #default="{ items }">
-      <v-row>
+      <v-row class="d-flex justify-center align-center">
         <v-col
           v-for="(item, i) in items"
           :key="i"
           cols="12"
+          md="4"
           sm="6"
-          xl="3"
+          xl="4"
         >
           <v-sheet border class="rounded-lg">
             <v-img height="100" :src="getDriverImage(item)" />
