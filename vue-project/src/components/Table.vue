@@ -67,26 +67,23 @@
   <Caldar :user="userP" />
 </template>
 <script setup>
-  import { /*onMounted,*/ ref,/* shallowRef,*/ watch } from 'vue'
+  import { ref, watch } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router';
   const route = useRoute();
   import { useRouter } from 'vue-router';
   const router = useRouter();
 
-  // Инициализация реактивных данных
   const posts = ref([])
   const errors = ref([])
   const tableYear = route.query.year;
   const valueYear = ref(tableYear ? tableYear : '2025')
   const years = ['2025', '2024', '2023', '2022', '2021', '2020']
-  // const tabs = shallowRef(null)
   const validationRules= [v => /^[a-zA-Z\s]*$/.test(v) || ('Используйте английские буквы.')];
 
   const userP = {
     nameJJ: valueYear,
   }
-  // const tabs = ref(null)
 
   async function fetchData (year) {
     try {
@@ -96,17 +93,6 @@
       errors.value.push(err.message || err.toString())
     }
   }
-
-  // function goToTab2 (tabyear) {
-  //   console.log('Год изменился:', tabyear);
-  //   route.push(`/table2/?id=${tabyear}`);
-  //   route.push({ path: '/table2/', query: { year: tabyear } });
-  // }
-
-  // Метод fetchData для загрузки данных при монтировании компонента
-  // onMounted(() => {
-  //   fetchData(valueYear.value)
-  // })
 
   const FakeAPI = {
     async fetch ({ page, itemsPerPage, sortBy, search }) {
@@ -126,7 +112,6 @@
             const sortKey = sortBy[0].key
             const sortOrder = sortBy[0].order
 
-            // Глубокая сортировка по вложенным ключам
             items.sort((a, b) => {
               let aValue = a
               let bValue = b
@@ -187,7 +172,6 @@
     console.log('Год изменился:', newValue);
     await fetchData(newValue);
     loadItems({ page: 1, itemsPerPage: itemsPerPage.value, sortBy: false });
-    // goToTab2(newValue);
   }, { immediate: true });
 
   watch(name, () => {
@@ -250,14 +234,14 @@
   font-size: 14px;
   font-weight: 300;
 }
-/* Aдаптация для мобильных устройств (например, iPhone 5) */
+/* Aдаптация для мобильных устройств */
 @media only screen and (min-width: 640px) {
 .custom-class {
     font-size: 14px !important;
   }
 }
 
-/* Планшеты (iPad) */
+/* Планшеты */
 @media only screen and (min-width: 768px) {
 .custom-class {
     font-size: 16px !important;

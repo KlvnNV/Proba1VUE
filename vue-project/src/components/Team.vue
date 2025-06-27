@@ -1,6 +1,4 @@
 <template>
-  <!-- <Nav /> -->
-
   <v-container
     class="pl-0 pr-0 pb-0"
     fluid
@@ -91,15 +89,12 @@
   export default {
     setup () {
       const route = useRoute();
-      // const teamId = route.query.id;
-      // const teamName = route.query.name;
       const teamYear = route.query.year;
-
       const valueYear = ref(teamYear);
       const years = ['2025', '2024', '2023', '2022', '2021', '2020'];
       const tabs = shallowRef(null)
       return {
-        valueYear, years, tabs, //teamId, teamName, teamYear,
+        valueYear, years, tabs,
       };
     },
     data () {
@@ -118,8 +113,6 @@
       const route = useRoute();
       this.teamId = route.query.id;
       this.teamName = route.query.name;
-      // this.teamYear = route.query.year;
-
       this.fetchData(this.valueYear);
     },
 

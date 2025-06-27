@@ -1,37 +1,4 @@
 <template>
-  <!-- <Nav /> -->
-  <!-- <v-card>
-    <v-layout>
-      <v-app-bar
-        absolute
-        :elevation="24"
-        flat
-        rounded
-      >
-        <v-tabs
-          v-model="tabs"
-          align-tabs="title"
-          slider-color="green"
-        >
-          <v-tab to="/">
-            <img alt="Логотип моего приложения" height="50" src="@/assets/logo.png">
-          </v-tab>
-
-          <v-tab text="Чемпионат" to="/tables" value="one" />
-
-          <v-tab text="Команды" to="/cardteam" value="two" />
-
-          <v-tab text="Гонщики" to="/driversall" value="three" />
-
-        </v-tabs>
-      </v-app-bar>
-
-      <v-main>
-        <v-sheet height="10" />
-      </v-main>
-    </v-layout>
-  </v-card> -->
-
   <v-card>
     <v-container
       class="pl-0 pr-0 pb-0"

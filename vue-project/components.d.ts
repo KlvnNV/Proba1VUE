@@ -8,13 +8,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     Caldar: typeof import('./src/components/Caldar.vue')['default']
     Cardteam: typeof import('./src/components/Cardteam.vue')['default']
     DriverResult: typeof import('./src/components/DriverResult.vue')['default']
     Driversall: typeof import('./src/components/Driversall.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    Nav: typeof import('./src/layouts/Nav.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./src/components/Table.vue')['default']

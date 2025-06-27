@@ -9,11 +9,9 @@ import Cardteam from '@/components/Cardteam.vue'
 import DriverResult from '@/components/DriverResult.vue'
 import Driversall from '@/components/Driversall.vue'
 import HelloWorld from '@/components/HelloWorld.vue'
-// import Table2 from '@/components/Table2.vue'
 import Table from '@/components/Table.vue'
 import Team from '@/components/Team.vue'
 import { createRouter, createWebHistory } from 'vue-router/auto'
-// import { routes } from 'vue-router/auto-routes'
 
 
 const router = createRouter({

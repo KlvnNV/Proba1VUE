@@ -25,7 +25,6 @@
         day: 'numeric' }) }}
     </template>
 
-    <!-- //   :search="search" -->
     <template #[`item.winner.surname`]="{ item }">
       <span class="d-flex flex-row align-center">
         {{ getStatusD(item.winner) }}
@@ -45,7 +44,6 @@
     <v-btn @click="clearFilter">Очистить фильтр</v-btn>
   </v-row>
   <v-row class="d-flex justify-center mb-4 mt-0 align-center">
-    <!-- <v-col> -->
     <v-date-picker
       v-model="dateFrom"
       first-day-of-week="1"
@@ -69,33 +67,19 @@
       min-width="120"
       title="Конец периода"
     />
-    <!-- </v-col> -->
-
-
   </v-row>
-  <v-row>
-    <!-- <v-col>
-      <v-btn @click="clearFilter">Очистить фильтр</v-btn>
-    </v-col> -->
-  </v-row>
+  <v-row />
 </template>
 <script setup>
-  import { computed, /*onMounted,*/ ref, watch } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import axios from 'axios'
-  // import { useRouter } from 'vue-router';
-  // const router = useRouter();
-  // Инициализация реактивных данных
   const posts = ref([])
   const errors = ref([])
-  // const tableYear = route.query.year;
   const props = defineProps(['user'])
-  const valueYear = ref(props.user.nameJJ || '2022')//tableYear? tableYear : '2025'
-  // const years = ['2025', '2024', '2023', '2022']
-  // const tabs = shallowRef(null)
+  const valueYear = ref(props.user.nameJJ || '2022')
 
   const dateFrom = ref(null);
   const dateTo = ref(null);
-
 
   const filteredItems = computed(() => {
     if (!dateFrom.value&&!dateTo.value) return serverItems.value;
@@ -149,10 +133,6 @@
       errors.value.push(err.message || err.toString())
     }
   }
-  // Метод fetchData для загрузки данных при монтировании компонента
-  // onMounted(() => {
-  //   fetchData(valueYear.value)
-  // })
 
   const FakeAPI = {
     async fetch ({ page, itemsPerPage, sortBy, search }) {
@@ -172,7 +152,6 @@
             const sortKey = sortBy[0].key
             const sortOrder = sortBy[0].order
 
-            // Глубокая сортировка по вложенным ключам
             items.sort((a, b) => {
               let aValue = a
               let bValue = b
@@ -203,7 +182,6 @@
       sortable: false,
       key: 'schedule.race.date',
     },
-    // { title: '', key: 'schedule.race.time', sortable: false },
     { title: 'Гран При', key: 'circuit.country', sortable: false },
     { title: 'Трасса', key: 'circuit.circuitName', sortable: false },
     { title: 'Победитель', key: 'winner.surname', sortable: false },
@@ -241,14 +219,14 @@
   font-size: 14px;
   font-weight: 300;
 }
-/* Aдаптация для мобильных устройств (например, iPhone 5) */
+/* Aдаптация для мобильных устройств */
 @media only screen and (min-width: 640px) {
 .custom-class {
     font-size: 14px !important;
   }
 }
 
-/* Планшеты (iPad) */
+/* Планшеты */
 @media only screen and (min-width: 768px) {
 .custom-class {
     font-size: 16px !important;

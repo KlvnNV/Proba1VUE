@@ -64,7 +64,7 @@
   background-color: green !important;
 }
 
-/* Aдаптация для мобильных устройств (например, iPhone 5) */
+/* Aдаптация для мобильных устройств  */
 @media only screen and (max-width: 640px) {
   .v-app-bar {
     width: 100%;
@@ -81,7 +81,7 @@
   }
 }
 
-/* Планшеты (iPad) */
+/* Планшеты  */
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   .v-app-bar {
     padding-left: 20px;

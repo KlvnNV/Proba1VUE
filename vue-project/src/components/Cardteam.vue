@@ -139,11 +139,7 @@
         ],
       }
     },
-    // watch: {
-    //   async valueYear (newValue) {
-    //     await this.fetchData(newValue);
-    //   },
-    // },
+
     watch: {
       valueYear: {
         async handler (newValue) {
@@ -152,9 +148,7 @@
         immediate: true,
       },
     },
-    // mounted () {
-    //   this.fetchData(this.valueYear);
-    // },
+
     methods: {
       async fetchData (year) {
         try {
@@ -206,13 +200,3 @@
     },
   }
 </script>
-<style scoped>
-.background-image {
-  width: 100%;
-  height: 100vh; /* высота окна просмотра */
-  background-image: url("/src/assets/race.jpg");
-  background-size: cover;  /*масштабирует изображение до полного заполнения */
-  background-position: center; /* центрует изображение */
-  background-repeat: no-repeat;
-}
-</style>

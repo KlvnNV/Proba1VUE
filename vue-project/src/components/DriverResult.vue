@@ -1,5 +1,4 @@
 <template>
-  <!-- <Nav /> -->
   <v-container
     class="pl-0 pr-0 pb-0"
     fluid
@@ -67,14 +66,13 @@
   </v-data-table-server>
 </template>
 <script setup>
-  import { /*onMounted,*/ ref, watch } from 'vue'
+  import { ref, watch } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router';
   import { useRouter } from 'vue-router';
 
   const route = useRoute();
   const router = useRouter();
-  // Инициализация реактивных данных
   const posts = ref([])
   const errorMessage = ref('');
   const driverId = route.query.id;
@@ -82,7 +80,6 @@
   const driverYear = route.query.year;
   const valueYear = ref(driverYear)
   const years = ['2025', '2024', '2023', '2022', '2021', '2020']
-  // const tabs = shallowRef(null)
   const validationRules= [v => /^[a-zA-Z\s]*$/.test(v) || ('Используйте английские буквы.')];
 
 
@@ -102,9 +99,6 @@
       }
     }
   }
-  // onMounted(() => {
-  //   fetchData(valueYear.value)
-  // })
 
   const FakeAPI = {
     async fetch ({ page, itemsPerPage, sortBy, search }) {
@@ -124,7 +118,6 @@
             const sortKey = sortBy[0].key
             const sortOrder = sortBy[0].order
 
-            // Глубокая сортировка по вложенным ключам
             items.sort((a, b) => {
               let aValue = a
               let bValue = b

@@ -46,19 +46,14 @@
   </v-data-table-server>
 </template>
 <script setup>
-  import { /*onMounted,*/ ref, watch } from 'vue'
+  import { ref, watch } from 'vue'
   import axios from 'axios'
-  // import { defineProps } from 'vue';
   import { useRouter } from 'vue-router';
   const router = useRouter();
-  // Инициализация реактивных данных
   const posts = ref([])
   const errors = ref([])
-  // const tableYear = route.query.year;
   const props = defineProps(['user'])
-  const valueYear = ref(props.user.nameJJ || '2022')//tableYear? tableYear : '2025'
-  // const years = ['2025', '2024', '2023', '2022']
-  // const tabs = shallowRef(null)
+  const valueYear = ref(props.user.nameJJ || '2022')
   const validationRules= [v => /^[a-zA-Z\s]*$/.test(v) || ('Используйте английские буквы.')];
 
 
@@ -70,10 +65,6 @@
       errors.value.push(err.message || err.toString())
     }
   }
-  // Метод fetchData для загрузки данных при монтировании компонента
-  // onMounted(() => {
-  //   fetchData(valueYear.value)
-  // })
 
   const FakeAPI = {
     async fetch ({ page, itemsPerPage, sortBy, search }) {
@@ -88,21 +79,11 @@
             }
             return true
           })
-          //   if (sortBy.length) {
-          //     const sortKey = sortBy[0].key
-          //     const sortOrder = sortBy[0].order
-          //     items.value.sort((a, b) => {
-          //       const aValue = a[sortKey]
-          //       const bValue = b[sortKey]
-          //       return sortOrder === 'desc' ? bValue - aValue : aValue - bValue
-          //     })
-          //   }
           // Если включена сортировка
           if (sortBy.length) {
             const sortKey = sortBy[0].key
             const sortOrder = sortBy[0].order
 
-            // Глубокая сортировка по вложенным ключам
             items.sort((a, b) => {
               let aValue = a
               let bValue = b
@@ -201,14 +182,14 @@
   font-size: 14px;
   font-weight: 300;
 }
-/* Aдаптация для мобильных устройств (например, iPhone 5) */
+/* Aдаптация для мобильных устройств */
 @media only screen and (min-width: 640px) {
 .custom-class {
     font-size: 14px !important;
   }
 }
 
-/* Планшеты (iPad) */
+/* Планшеты */
 @media only screen and (min-width: 768px) {
 .custom-class {
     font-size: 16px !important;

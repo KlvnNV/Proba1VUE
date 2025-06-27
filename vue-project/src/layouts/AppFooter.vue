@@ -2,7 +2,7 @@
   <footer
     class="footer"
   >
-    <p>&copy; 2025 F1 Project. All rights reserved.</p>
+    <p>&copy; 2025 F1Stat Project. All rights reserved.</p>
   </footer>
 </template>
 
